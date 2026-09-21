@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador de Dias Online: Calcule Dias Entre Datas Grátis</title>
+<meta name="description" content="Calcule dias entre duas datas de forma simples e gratuita. Entenda o que são dias corridos, veja exemplos práticos e descubra como calcular períodos.">
+<!-- CANONICAL: substitua pela URL final do GitHub Pages, ex: https://seuusuario.github.io/repositorio/ -->
+<link rel="canonical" href="https://meucontadordedias.com.br/contador-de-dias-online/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Contador de Dias Online: Calcule Dias Entre Datas Grátis">
+<meta property="og:description" content="Calcule dias entre duas datas de forma simples e gratuita. Entenda o que são dias corridos, veja exemplos práticos e descubra como calcular períodos.">
+<meta property="og:url" content="https://meucontadordedias.com.br/contador-de-dias-online/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+
+<style>
+  :root{
+    --purple:#6B2FA0;
+    --purple-dark:#521f7d;
+    --lavender:#f3ecfa;
+    --lavender-soft:#ece1f7;
+    --text:#2b2333;
+    --muted:#6b6473;
+    --white:#ffffff;
+    --radius:16px;
+    --shadow:0 8px 24px rgba(107,47,160,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+    line-height:1.6;
+    background:linear-gradient(180deg,var(--lavender) 0%,var(--white) 320px);
+  }
+  a{color:var(--purple);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img,svg{max-width:100%;}
+  .container{max-width:960px;margin:0 auto;padding:0 20px;}
+
+  header.site-header{
+    background:var(--white);
+    border-bottom:1px solid var(--lavender-soft);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;max-width:960px;margin:0 auto;
+    gap:16px;flex-wrap:wrap;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    font-weight:700;font-size:1.15rem;color:var(--purple-dark);
+  }
+  .brand svg{flex-shrink:0;}
+  nav ul{
+    list-style:none;display:flex;gap:22px;margin:0;padding:0;flex-wrap:wrap;
+  }
+  nav a{
+    color:var(--text);font-weight:500;font-size:0.95rem;
+  }
+  nav a:hover{color:var(--purple);}
+  nav a:focus-visible, a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:3px solid var(--purple);outline-offset:2px;
+  }
+
+  .hero{
+    padding-top:56px;padding-bottom:32px;text-align:center;
+  }
+  .hero h1{
+    font-size:2.1rem;margin:0 0 14px;color:var(--purple-dark);
+  }
+  .hero p.lead{
+    max-width:620px;margin:0 auto 30px;color:var(--muted);font-size:1.05rem;
+  }
+
+  .calc-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px;
+    max-width:560px;
+    margin:0 auto;
+    text-align:left;
+  }
+  .calc-card h2{
+    margin-top:0;font-size:1.2rem;color:var(--purple-dark);
+  }
+  .field-row{
+    display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;
+  }
+  .field{
+    flex:1;min-width:160px;display:flex;flex-direction:column;gap:6px;
+  }
+  label{font-weight:600;font-size:0.9rem;}
+  input[type="date"]{
+    padding:10px 12px;border:1.5px solid var(--lavender-soft);
+    border-radius:10px;font-size:1rem;background:var(--lavender);
+    color:var(--text);width:100%;
+  }
+  .checkbox-row{
+    display:flex;align-items:center;gap:8px;margin-bottom:18px;font-size:0.92rem;
+  }
+  .checkbox-row input{width:18px;height:18px;}
+  button.calc-btn{
+    background:var(--purple);color:var(--white);border:none;
+    padding:12px 22px;border-radius:10px;font-size:1rem;font-weight:600;
+    cursor:pointer;width:100%;transition:background 0.15s ease;
+  }
+  button.calc-btn:hover{background:var(--purple-dark);}
+  .result{
+    margin-top:20px;padding:16px;border-radius:12px;
+    background:var(--lavender);text-align:center;font-size:1.1rem;font-weight:600;
+    color:var(--purple-dark);min-height:24px;
+  }
+  .result.error{background:#fdecea;color:#a12b1f;}
+
+  section.content{padding-top:36px;padding-bottom:36px;}
+  section.content h2{
+    color:var(--purple-dark);font-size:1.5rem;margin-bottom:12px;
+  }
+  section.content p{color:var(--text);}
+
+  .compare-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px;
+  }
+  @media (max-width:640px){ .compare-grid{grid-template-columns:1fr;} }
+  .compare-card{
+    background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:20px;
+  }
+  .compare-card h3{margin-top:0;color:var(--purple-dark);font-size:1.05rem;}
+  .compare-card ul{margin:0;padding-left:20px;color:var(--muted);}
+
+  .example-box{
+    background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:22px;margin-top:16px;
+  }
+
+  .faq-item{
+    border-bottom:1px solid var(--lavender-soft);padding:14px 0;
+  }
+  .faq-item summary{
+    cursor:pointer;font-weight:600;font-size:1.02rem;color:var(--purple-dark);
+    list-style:none;position:relative;padding-right:24px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+";position:absolute;right:0;top:0;font-size:1.2rem;color:var(--purple);
+  }
+  .faq-item[open] summary::after{content:"–";}
+  .faq-item p{margin:10px 0 0;color:var(--muted);}
+
+  footer.site-footer{
+    background:var(--lavender);padding:32px 0;margin-top:40px;
+  }
+  .footer-inner{
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;
+  }
+  footer.site-footer h4{margin:0 0 6px;color:var(--purple-dark);}
+  footer.site-footer p{margin:0;color:var(--muted);font-size:0.9rem;}
+  footer.site-footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;}
+
+  @media (prefers-color-scheme: dark){
+    /* Deliberately keep light theme: page relies on brand purple/lavender for trust and legibility */
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="17" rx="3" fill="#6B2FA0"/>
+        <rect x="3" y="4" width="18" height="5" rx="3" fill="#521f7d"/>
+        <circle cx="8" cy="14" r="1.4" fill="#fff"/>
+        <circle cx="12" cy="14" r="1.4" fill="#fff"/>
+        <circle cx="16" cy="14" r="1.4" fill="#fff"/>
+      </svg>
+      Meu Contador de Dias
+    </div>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="https://meucontadordedias.com.br/">Início</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero container" id="calculadora">
+    <h1>Contador de Dias Online</h1>
+    <p class="lead">Calcule quantos dias existem entre duas datas de forma simples. Informe a data inicial e a data final para descobrir a diferença entre os períodos.</p>
+
+    <div class="calc-card">
+      <h2>Calculadora de dias entre datas</h2>
+      <form id="calc-form">
+        <div class="field-row">
+          <div class="field">
+            <label for="data-inicial">Data inicial</label>
+            <input type="date" id="data-inicial" name="data-inicial" required>
+          </div>
+          <div class="field">
+            <label for="data-final">Data final</label>
+            <input type="date" id="data-final" name="data-final" required>
+          </div>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="incluir-final" name="incluir-final">
+          <label for="incluir-final" style="font-weight:400;">Incluir data final</label>
+        </div>
+        <button type="submit" class="calc-btn">Calcular dias</button>
+      </form>
+      <div class="result" id="resultado" role="status" aria-live="polite">Preencha as datas para calcular.</div>
+    </div>
+  </section>
+
+  <section class="content container">
+    <h2>Como calcular dias entre duas datas?</h2>
+    <p>Para calcular a diferença entre duas datas, basta contar quantos dias existem do dia inicial até o dia final. Informe as duas datas na calculadora acima e o resultado aparece automaticamente, sem precisar contar manualmente no calendário.</p>
+    <p>Por exemplo: se a data inicial for <strong>1 de abril</strong> e a data final for <strong>15 de abril</strong>, o resultado é <strong>14 dias</strong>. Isso acontece porque a contagem considera o intervalo entre os dois dias, sem contar a data final. Se você marcar a opção "Incluir data final", o resultado passa a ser 15 dias, já que o próprio dia 15 também é contado.</p>
+    <p>Esse tipo de cálculo pode ser feito manualmente, contando dia por dia em um calendário físico, mas isso costuma ser lento e sujeito a erros, principalmente quando o período passa por mais de um mês ou por anos diferentes. Usar uma calculadora online evita esse trabalho e reduz a chance de contar um dia a mais ou a menos, especialmente em cálculos que envolvem anos bissextos.</p>
+    <p>A ferramenta acima funciona diretamente no navegador, sem precisar instalar nada e sem enviar seus dados para nenhum servidor. Basta escolher as duas datas e clicar em "Calcular dias" para ver o resultado na hora.</p>
+  </section>
+
+  <section class="content container" id="dias-corridos">
+    <h2>O que são dias corridos?</h2>
+    <p>Dias corridos são todos os dias do calendário, contados em sequência, sem pular nenhum. Isso inclui sábados, domingos e feriados. Quando alguém fala em "prazo de 15 dias corridos", geralmente está se referindo a esse tipo de contagem contínua, sem interrupções.</p>
+    <p>É importante lembrar que prazos específicos — como prazos legais, contratuais ou administrativos — podem seguir regras próprias. Por isso, em situações formais, vale sempre confirmar como a contagem deve ser feita no caso específico, além de usar o <a href="https://meucontadordedias.com.br/contador-de-dias-corridos/">contador de dias corridos</a> como apoio.</p>
+    <p>No dia a dia, a expressão "dias corridos" costuma aparecer em contextos como prazos de entrega, tempo de validade de promoções, contagem de dias de viagem ou período de garantia de um produto. Como a contagem não pula nenhum dia da semana, ela tende a ser mais simples de entender do que contagens que dependem de dias úteis ou de feriados específicos de cada região.</p>
+  </section>
+
+  <section class="content container" id="dias-uteis">
+    <h2>Dias corridos vs dias úteis</h2>
+    <p>A principal diferença entre os dois tipos de contagem está em quais dias são considerados. Enquanto os dias corridos seguem o calendário do início ao fim sem interrupções, os dias úteis geralmente deixam de fora os dias em que não há expediente normal de trabalho.</p>
+    <p>Essa diferença pode mudar bastante o resultado final de um prazo. Um período de "10 dias úteis", por exemplo, quase sempre representa um intervalo maior em dias corridos, já que sábados, domingos e, em alguns casos, feriados não entram na contagem. Por isso, antes de calcular um prazo, é importante confirmar se ele foi definido em dias corridos ou em dias úteis.</p>
+    <div class="compare-grid">
+      <div class="compare-card">
+        <h3>Dias corridos</h3>
+        <ul>
+          <li>Consideram todos os dias do calendário</li>
+          <li>Incluem sábados e domingos</li>
+          <li>Feriados também fazem parte da contagem</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <h3>Dias úteis</h3>
+        <ul>
+          <li>Normalmente consideram apenas os dias de trabalho</li>
+          <li>Costumam excluir fins de semana</li>
+          <li>As regras podem variar de acordo com o contexto</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="content container">
+    <h2>Exemplo de cálculo de dias corridos</h2>
+    <div class="example-box">
+      <p><strong>Data inicial:</strong> 1º de abril<br>
+      <strong>Data final:</strong> 15 de abril<br>
+      <strong>Resultado:</strong> 14 dias de diferença</p>
+      <p>Se a intenção for incluir o próprio dia 15 de abril na contagem, basta marcar a opção "Incluir data final" na calculadora. Nesse caso, o resultado passa a ser 15 dias.</p>
+    </div>
+  </section>
+
+  <section class="content container">
+    <h2>Quando usar um contador de dias?</h2>
+    <p>Um contador de dias é útil em diversas situações do dia a dia, como:</p>
+    <ul>
+      <li><strong>Acompanhar prazos de documentos ou tarefas</strong> — saber exatamente quantos dias faltam até uma data limite ajuda a organizar o que precisa ser feito antes do vencimento.</li>
+      <li><strong>Planejar viagens</strong> e contar quantos dias faltam ou já passaram desde uma data específica, útil para organizar reservas e compromissos.</li>
+      <li><strong>Organizar cronogramas de projetos</strong>, calculando o tempo total entre o início e o fim de uma etapa de trabalho.</li>
+      <li><strong>Contar dias até um evento importante</strong>, como aniversários, formaturas ou datas comemorativas.</li>
+      <li><strong>Planejar períodos entre datas específicas</strong>, como o tempo de duração de um contrato, de uma promoção ou de um período de teste.</li>
+    </ul>
+    <p>Em todos esses casos, o objetivo é o mesmo: transformar a diferença entre duas datas em um número claro e fácil de entender, sem precisar contar manualmente no calendário. Você pode repetir o cálculo quantas vezes precisar, alterando apenas as datas informadas.</p>
+    <p>Se quiser explorar outras ferramentas relacionadas, visite a página principal do <a href="https://meucontadordedias.com.br/">contador de dias</a> para conhecer as demais calculadoras disponíveis, incluindo opções para dias corridos e dias úteis.</p>
+  </section>
+
+  <section class="content container">
+    <h2>Perguntas frequentes</h2>
+
+    <details class="faq-item">
+      <summary>Como calcular dias entre duas datas?</summary>
+      <p>Basta informar a data inicial e a data final na calculadora acima. O sistema mostra automaticamente quantos dias existem entre elas.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>O que são dias corridos?</summary>
+      <p>Dias corridos são todos os dias do calendário contados em sequência, incluindo sábados, domingos e feriados.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Sábado conta como dia corrido?</summary>
+      <p>Sim. Na contagem de dias corridos, o sábado é contado normalmente, assim como qualquer outro dia da semana.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Domingo conta como dia corrido?</summary>
+      <p>Sim. O domingo também faz parte da contagem de dias corridos, junto com os demais dias do calendário.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Qual é a diferença entre dias corridos e dias úteis?</summary>
+      <p>Dias corridos incluem todos os dias do calendário, enquanto dias úteis geralmente consideram apenas os dias de trabalho, excluindo fins de semana e, em alguns casos, feriados.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Como incluir a data final no cálculo?</summary>
+      <p>Marque a opção "Incluir data final" na calculadora. Isso soma 1 dia ao resultado, contando também o próprio dia final.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Posso calcular uma data futura?</summary>
+      <p>Sim. Você pode informar qualquer data inicial e final, incluindo datas futuras, para saber a diferença entre elas.</p>
+    </details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <h4>Meu Contador de Dias</h4>
+      <p>Ferramenta online para calcular dias entre datas e entender dias corridos.</p>
+    </div>
+    <div>
+      <ul>
+        <li><a href="https://meucontadordedias.com.br/">Website</a></li>
+        <li><a href="https://meucontadordedias.com.br/contador-de-dias-corridos/">Contador de Dias Corridos</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Contador de Dias Online",
+  "url": "https://meucontadordedias.com.br/contador-de-dias-online/",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "description": "Ferramenta online gratuita para calcular a quantidade de dias entre duas datas, incluindo explicações sobre dias corridos e dias úteis.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "BRL"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Como calcular dias entre duas datas?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Basta informar a data inicial e a data final na calculadora acima. O sistema mostra automaticamente quantos dias existem entre elas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que são dias corridos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dias corridos são todos os dias do calendário contados em sequência, incluindo sábados, domingos e feriados."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Sábado conta como dia corrido?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. Na contagem de dias corridos, o sábado é contado normalmente, assim como qualquer outro dia da semana."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Domingo conta como dia corrido?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. O domingo também faz parte da contagem de dias corridos, junto com os demais dias do calendário."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual é a diferença entre dias corridos e dias úteis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dias corridos incluem todos os dias do calendário, enquanto dias úteis geralmente consideram apenas os dias de trabalho, excluindo fins de semana e, em alguns casos, feriados."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Como incluir a data final no cálculo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Marque a opção \"Incluir data final\" na calculadora. Isso soma 1 dia ao resultado, contando também o próprio dia final."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso calcular uma data futura?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. Você pode informar qualquer data inicial e final, incluindo datas futuras, para saber a diferença entre elas."
+      }
+    }
+  ]
+}
+</script>
+
+<script>
+(function(){
+  var form = document.getElementById('calc-form');
+  var resultado = document.getElementById('resultado');
+  var inicialInput = document.getElementById('data-inicial');
+  var finalInput = document.getElementById('data-final');
+  var incluirCheckbox = document.getElementById('incluir-final');
+
+  function parseDateLocal(value){
+    // value is "YYYY-MM-DD" from <input type="date">.
+    // Parse manually to avoid UTC shifting the date by a day.
+    var parts = value.split('-');
+    var y = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10) - 1;
+    var d = parseInt(parts[2], 10);
+    return new Date(y, m, d);
+  }
+
+  function formatBR(date){
+    var d = String(date.getDate()).padStart(2, '0');
+    var m = String(date.getMonth() + 1).padStart(2, '0');
+    var y = date.getFullYear();
+    return d + '/' + m + '/' + y;
+  }
+
+  function showError(msg){
+    resultado.textContent = msg;
+    resultado.classList.add('error');
+  }
+
+  function showResult(msg){
+    resultado.classList.remove('error');
+    resultado.textContent = msg;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var inicialVal = inicialInput.value;
+    var finalVal = finalInput.value;
+
+    if(!inicialVal || !finalVal){
+      showError('Preencha as duas datas para calcular.');
+      return;
+    }
+
+    var dataInicial = parseDateLocal(inicialVal);
+    var dataFinal = parseDateLocal(finalVal);
+
+    if(isNaN(dataInicial.getTime()) || isNaN(dataFinal.getTime())){
+      showError('Datas inválidas. Verifique os valores informados.');
+      return;
+    }
+
+    var msPorDia = 1000 * 60 * 60 * 24;
+    var diffDias = Math.round((dataFinal.getTime() - dataInicial.getTime()) / msPorDia);
+
+    if(incluirCheckbox.checked){
+      diffDias = diffDias >= 0 ? diffDias + 1 : diffDias - 1;
+    }
+
+    if(diffDias < 0){
+      showResult('Resultado: ' + Math.abs(diffDias) + ' dias (a data final é anterior à data inicial)');
+      return;
+    }
+
+    showResult('Resultado: ' + diffDias + ' dia' + (diffDias === 1 ? '' : 's') + ' — de ' + formatBR(dataInicial) + ' até ' + formatBR(dataFinal));
+  });
+})();
+</script>
+
+</body>
+</html>
